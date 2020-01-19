@@ -1,0 +1,57 @@
+version: '2'
+services:
+  nginx:
+    restart: always
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+     - "/export/containers/nginx-conf/nginx.conf:/etc/nginx/nginx.conf:ro"
+     - "/export/containers/nginx-conf/gitlab-http.conf:/etc/nginx/conf.d/gitlab-http.conf:ro"
+     - "/export/containers/nginx-logs:/var/log/nginx"
+    network_mode: "bridge"
+    ports:
+     - "8080:80"
+    depends_on:
+      - gitlab_app
+    links:
+      - gitlab_app
+  gitlab_app:
+    restart: always
+    image: 'gitlab/gitlab-ce:latest'
+    hostname: 'git'
+    container_name: gitlab_app
+    expose:
+    - "8081"
+    volumes:
+     - "/export/containers/gitlab-config:/etc/gitlab"
+     - "/export/containers/gitlab-data:/var/opt/gitlab"
+     - "/export/containers/gitlab-logs:/var/log/gitlab"
+    network_mode: "bridge"
+    ports:
+     - "8022:22"
+    depends_on:
+      - postgresql
+      - redis
+    links:
+      - postgresql
+      - redis
+  postgresql:
+    restart: always
+    image: postgres:latest
+    container_name: postgresql
+    environment:
+     - POSTGRES_PASSWORD=T0pS3cr3T
+    expose:
+    - "5432"
+    volumes:
+     - "/export/containers/postgresql-data:/var/lib/postgresql/data"
+    network_mode: "bridge"
+  redis:
+    restart: always
+    image: redis:latest
+    container_name: redis
+    expose:
+    - "6379"
+    volumes:
+     - "/export/containers/redis-data:/data"
+    network_mode: "bridge"
