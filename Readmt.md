@@ -2,7 +2,7 @@
 [Оригинал статьи](https://rascal.su/blog/2016/09/18/%D1%80%D0%B0%D0%B7%D0%B2%D0%BE%D1%80%D0%B0%D1%87%D0%B8%D0%B2%D0%B0%D0%B5%D0%BC-gitlab-%D0%BD%D0%B0-%D0%B1%D0%B0%D0%B7%D0%B5-docker/)
 
 
-#1. Создаем файл docker-compose.yml
+# 1. Создаем файл docker-compose.yml
     Перманентная информация хранится на хосте в каталоге /export/containers.
 
 №2. Создаем контейнеры описанной конфигурации:
@@ -16,7 +16,7 @@ Creating nginx
 ```
 
 
-##PostgreSQL
+## PostgreSQL
 
 Для начала настроим PostgreSQL. Для этого запустим контейнер:
 
@@ -45,7 +45,7 @@ $ docker stop postgresql
 
 
 
-##Nginx
+## Nginx
 
 Нам потребуются конфиги nginx, можно использовать готовые:
 
@@ -56,7 +56,7 @@ $ curl https://raw.githubusercontent.com/R4scal/docker-gitlab/master/nginx-conf/
 
 
 
-##Gitlab
+## Gitlab
 
 Официальный сайт говорит, что при запуске контейнера конфигурацию можно передать через переменные окружения. Для этого в секцию сервиса gitlab_app необходимо добавить строки вида:
 
@@ -89,7 +89,7 @@ nginx['enable'] = false
 ```
 
 
-##Запускаем все контейнеры:
+## Запускаем все контейнеры:
 
 ```
 $ docker-compose up
